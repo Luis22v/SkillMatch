@@ -40,6 +40,30 @@ public class User implements UserDetails {
     @Column(length = 20)
     private String phone;
     
+    @Column(length = 200)
+    private String headline;
+    
+    @Column(length = 100)
+    private String location;
+    
+    @Column(length = 500)
+    private String bio;
+    
+    @Column(name = "profile_image_url", length = 255)
+    private String profileImageUrl;
+    
+    @Column(name = "cover_image_url", length = 255)
+    private String coverImageUrl;
+    
+    @Column(columnDefinition = "TEXT")
+    private String experiences;
+    
+    @Column(columnDefinition = "TEXT")
+    private String education;
+    
+    @Column(columnDefinition = "TEXT")
+    private String certifications;
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_roles",
@@ -51,10 +75,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Boolean enabled = true;
     
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
     
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", columnDefinition = "DATETIME")
     private LocalDateTime updatedAt;
     
     @PrePersist

@@ -3,6 +3,7 @@ package com.skillmatch.backend.service;
 import com.skillmatch.backend.model.User;
 import com.skillmatch.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     
     @Transactional
-    public UserDetails loadUserById(Long id) {
+    public UserDetails loadUserById(@NonNull Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con id: " + id));
         

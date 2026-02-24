@@ -49,6 +49,12 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
     
+    public Long getUserIdFromJwt(String token) {
+        // El token contiene el email (username), necesitamos consultar la base de datos
+        // para obtener el ID del usuario
+        return null; // Esto se manejará en el controlador con el repository
+    }
+    
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser()

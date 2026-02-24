@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,21 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+    
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handleTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
+        String paramName = ex.getName();
+        Object rejectedValue = ex.getValue();
+        
+        // Manejador especial para parámetros "undefined"
+        if ("undefined".equals(String.valueOf(rejectedValue))) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Parámetro '" + paramName + "' inválido (undefined). Verifica que el ID sea válido."));
+        }
+        
+        return ResponseEntity.badRequest()
+                .body(new MessageResponse("El parámetro '" + paramName + "' debe ser del tipo " + ex.getRequiredType().getSimpleName()));
     }
     
     @ExceptionHandler(RuntimeException.class)

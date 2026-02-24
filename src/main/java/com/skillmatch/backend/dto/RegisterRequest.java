@@ -30,4 +30,7 @@ public class RegisterRequest {
     
     @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres")
     private String phone;
+    
+    // Tipo de usuario: USER o EMPRESA
+    private String userType;
 }
